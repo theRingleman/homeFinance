@@ -1,5 +1,5 @@
 #!/bin/bash
 
-service=service-name
+service=homefinance
 appPort=80
-externalPort=12345
+externalPort=1551

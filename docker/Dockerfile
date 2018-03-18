@@ -27,4 +27,4 @@ RUN apt-get update \
 
 # wire in a startup script
 ADD bootstrap.sh /var/www/bootstrap.sh
-CMD ["/var/www/bootstrap.sh"]nf
+CMD ["/var/www/bootstrap.sh"]
