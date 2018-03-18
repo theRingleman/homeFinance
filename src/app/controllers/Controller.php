@@ -135,4 +135,9 @@ class Controller {
     {
         return true;
     }
+
+    public function hello()
+    {
+        echo "we are alive";
+    }
 }
