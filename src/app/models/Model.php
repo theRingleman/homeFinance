@@ -48,17 +48,23 @@ class Model extends Mapper
      * @param $id
      * @param $values
      * @param bool $runValidation We give the option of skipping validation, otherwise lets always run it.
+     * @return bool
      * @throws \Exception
      */
     public function edit($id, $values, $runValidation = true)
     {
         $this->load(['id=?', $id]);
         if ($runValidation) {
-            if ($this->validate($values)) {
+            $validated = $this->validate($values);
+            if (!is_array($validated)) {
                 $this->_edit($values);
+            } else {
+                $this->errors = $validated;
+                return false;
             }
         } else {
             $this->_edit($values);
+            return true;
         }
     }
 
@@ -73,11 +79,21 @@ class Model extends Mapper
 
     /**
      * @param $values
+     * @return bool
+     * @throws \Exception
      */
-    public function create($values)
+    public function create($values, $runValidation = true)
     {
-        $this->copyFrom($values);
-        $this->save();
+        if ($runValidation) {
+            $validated = $this->validate($values);
+            if (!is_array($validated)) {
+                $this->copyFrom($values);
+                $this->save();
+            } else {
+               $this->errors = $validated;
+               return false;
+            }
+        }
     }
 
     /**
