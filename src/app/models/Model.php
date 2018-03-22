@@ -26,7 +26,6 @@ class Model extends Mapper
     /**
      * @param $attribute
      * @param $value
-     * @return array
      * @throws \Exception
      */
     public function findByAttribute($attribute, $value)
@@ -34,18 +33,15 @@ class Model extends Mapper
         $this->load(["{$attribute}=?", $value]);
         if ($this->dry()) {
             throw new \Exception("Not found.", 404);
-        } else {
-            return $this->query;
         }
     }
 
     /**
-     * @return array
+     * @return void
      */
     public function all()
     {
         $this->load();
-        return $this->query;
     }
 
     /**
