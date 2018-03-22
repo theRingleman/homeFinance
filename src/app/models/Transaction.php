@@ -35,7 +35,12 @@ class Transaction extends Model
 
     public function __construct($db)
     {
-        parent::__construct($db, 'Transactions');
+        parent::__construct($db, self::tableName());
+    }
+
+    public static function tableName()
+    {
+        return "Transactions";
     }
 
 }
