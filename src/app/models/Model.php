@@ -47,10 +47,26 @@ class Model extends Mapper
     /**
      * @param $id
      * @param $values
+     * @param bool $runValidation We give the option of skipping validation, otherwise lets always run it.
+     * @throws \Exception
      */
-    public function edit($id, $values)
+    public function edit($id, $values, $runValidation = true)
     {
         $this->load(['id=?', $id]);
+        if ($runValidation) {
+            if ($this->validate($values)) {
+                $this->_edit($values);
+            }
+        } else {
+            $this->_edit($values);
+        }
+    }
+
+    /**
+     * Internal edit so I dont have to repeat myself.
+     * @param $values
+     */
+    private function _edit($values) {
         $this->copyFrom($values);
         $this->update();
     }
@@ -68,6 +84,7 @@ class Model extends Mapper
      * @param $values
      * @return array|bool|null
      * @throws \Exception
+     * @TODO I am thinking that we may want to throw an error if this fails.
      */
     public function validate($values)
     {
