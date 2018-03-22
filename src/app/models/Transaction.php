@@ -15,8 +15,27 @@ class Transaction extends Model
         'amount'
     ];
 
-    public $validationRules = [];
+    public $validationRules = [
+        'logged' => 'date',
+        'date' => 'date',
+        'storeid' => 'integer',
+        'accountid' => 'required|integer',
+        'type' => 'required|alpha',
+        'amount' => 'required|numeric'
+    ];
 
-    public $filterRules = [];
+    public $filterRules = [
+        'logged' => 'trim|sanitize_numbers',
+        'date' => 'trim|sanitize_numbers',
+        'storeid' => 'trim|sanitize_numbers',
+        'accountid' => 'trim|sanitize_numbers',
+        'type' => 'trim|sanitize_string',
+        'amount' => 'trim|sanitize_floats'
+    ];
+
+    public function __construct($db)
+    {
+        parent::__construct($db, 'Transactions');
+    }
 
 }
