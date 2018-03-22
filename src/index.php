@@ -11,7 +11,7 @@ $f3->config('app/routes.ini');
 // Set up our database creds and set DB as an f3 global.
 $dbCreds = json_decode(file_get_contents('creds.json'));
 $f3->set('DB', new DB\SQL(
-    'mysql:host=homestorage;port=3306;dbname=homecore',
+    'mysql:host=homestorage;port=3306;dbname=homefinance',
     "{$dbCreds->database->username}",
     "{$dbCreds->database->password}"
 ));
