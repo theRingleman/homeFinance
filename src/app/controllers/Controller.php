@@ -2,36 +2,37 @@
 
 namespace controllers;
 
-class Controller {
+class Controller
+{
 
-	/**
-	 * @param $db DB FatFree database object for easy access.
-	 */
-	public $db;
+    /**
+     * @param $db DB FatFree database object for easy access.
+     */
+    public $db;
 
-	/**
-	 * @param $f3 \Base FatFree instance for easy access.
-	 */
-	public $f3;
+    /**
+     * @param $f3 \Base FatFree instance for easy access.
+     */
+    public $f3;
 
-	/**
-	 * @param $params array route parameters.
-	 */
-	public $params;
-	/**
-	 * @param $attributes \stdClass JSON attributes passed to route.
-	 */
-	public $attributes;
-	/**
-	 * @param $errors array Errors passed when needed for listing errors.
-	 */
-	public $errors;
+    /**
+     * @param $params array route parameters.
+     */
+    public $params;
+    /**
+     * @param $attributes \stdClass JSON attributes passed to route.
+     */
+    public $attributes;
+    /**
+     * @param $errors array Errors passed when needed for listing errors.
+     */
+    public $errors;
 
-	/**
-	 * @param $allowedRoutes array Add any routes in this array that you would like to allow without
+    /**
+     * @param $allowedRoutes array Add any routes in this array that you would like to allow without
      * authenticating.
-	 */
-	protected $allowedRoutes = [
+     */
+    protected $allowedRoutes = [
     ];
 
     /**
@@ -39,31 +40,31 @@ class Controller {
      * @param $f3 \Base
      */
     public function __construct($f3)
-	{
-		$this->f3 = $f3;
-		$this->db = $f3->get("DB");
-		$this->auth = $f3->get('AUTH');
-	}
+    {
+        $this->f3 = $f3;
+        $this->db = $f3->get("DB");
+        $this->auth = $f3->get('AUTH');
+    }
 
     /**
      * Handles anything you want done before routing, in this case auth and converting the request body to a
      * JSON decoded object.
      */
     public function beforeroute()
-	{
+    {
         $this->params = $this->f3->get('PARAMS');
         if ($this->f3->exists('BODY')) {
             $this->attributes = json_decode($this->f3->get('BODY'));
         }
-	}
+    }
 
     /**
      * Handles anything you want done after routing.
      */
     public function afterroute()
-	{
-		
-	}
+    {
+
+    }
 
     /**
      * Primarily for model errors, when they dont validate.
@@ -71,24 +72,24 @@ class Controller {
      * @param $errors
      */
     public function throwError($errors)
-	{
-		$this->f3->set("MODELERRORS", $errors);
-		$this->f3->error(404, 'Sorry but some information could not be validated');
-	}
+    {
+        $this->f3->set("MODELERRORS", $errors);
+        $this->f3->error(404, 'Sorry but some information could not be validated');
+    }
 
     /**
      * Returns errors in JSON format.
      * @TODO I need to update this so I can render all errors.
      */
     public function renderError()
-	{
-		$message = [
-			"message" => $this->f3->get('ERROR.text'),
-			"errors" => $this->f3->get("MODELERRORS")
-		];
-		$this->f3->set('response', $message);
-		echo \Template::instance()->render('json.php');
-	}
+    {
+        $message = [
+            "message" => $this->f3->get('ERROR.text'),
+            "errors" => $this->f3->get("MODELERRORS")
+        ];
+        $this->f3->set('response', $message);
+        echo \Template::instance()->render('json.php');
+    }
 
     /**
      * Sends our response to the json view which converts our response to json.
@@ -96,10 +97,10 @@ class Controller {
      * @param $response array
      */
     public function renderJson(array $response)
-	{
-		$this->f3->set('response', $response);
-		echo \Template::instance()->render('json.php');
-	}
+    {
+        $this->f3->set('response', $response);
+        echo \Template::instance()->render('json.php');
+    }
 
     /**
      * Gets our token from the request headers.
