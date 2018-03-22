@@ -114,6 +114,10 @@ class Model extends Mapper
         return $validatedData === false ? $validator->get_errors_array() : true;
     }
 
+    /**
+     * Deletes a model from the database.
+     * @param $id
+     */
     public function delete($id)
     {
         $this->load(['id' => $id]);
