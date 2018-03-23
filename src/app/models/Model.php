@@ -75,7 +75,8 @@ class Model extends Mapper
      * Internal edit so I dont have to repeat myself.
      * @param $values
      */
-    private function _edit($values) {
+    private function _edit($values)
+    {
         $this->copyFrom($values);
         $this->update();
     }
@@ -92,9 +93,10 @@ class Model extends Mapper
             if (!is_array($validated)) {
                 $this->copyFrom($values);
                 $this->save();
+                return true;
             } else {
-               $this->errors = $validated;
-               return false;
+                $this->errors = $validated;
+                return false;
             }
         }
     }
