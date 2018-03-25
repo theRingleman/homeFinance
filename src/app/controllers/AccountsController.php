@@ -9,12 +9,16 @@ class AccountsController extends Controller
 
     public function index()
     {
-        echo 'you have made it to the accounts controller';
+        $accounts = (new Account)->all();
+        $endpoint = array_map(function ($account) {
+            return $account->toEndPoint();
+        }, $accounts);
+        $this->renderJson($endpoint);
     }
 
     public function create()
     {
-        $account = new Account($this->db);
+        $account = new Account();
         if (!empty($this->attributes)) {
             if ($account->create($this->attributes)) {
                 $this->renderJson([
