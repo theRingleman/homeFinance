@@ -63,4 +63,16 @@ class AccountsController extends Controller
         }
     }
 
+    /**
+     * @throws \Exception
+     */
+    public function delete()
+    {
+        (new Account)
+            ->findByAttribute('id', $this->params['id'])
+            ->delete();
+
+        $this->renderJson(['message' => 'Account deleted successfully']);
+    }
+
 }

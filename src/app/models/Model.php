@@ -123,11 +123,9 @@ class Model extends Mapper
 
     /**
      * Deletes a model from the database.
-     * @param $id
      */
-    public function delete($id)
+    public function delete()
     {
-        $this->load(['id' => $id]);
         $this->erase();
     }
 }
