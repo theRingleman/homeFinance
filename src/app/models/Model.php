@@ -26,7 +26,7 @@ class Model extends Mapper
     /**
      * @param $attribute
      * @param $value
-     * @return array
+     * @return Model
      * @throws \Exception
      */
     public function findByAttribute($attribute, $value)
@@ -49,19 +49,18 @@ class Model extends Mapper
     }
 
     /**
-     * @param $id
      * @param $values
      * @param bool $runValidation We give the option of skipping validation, otherwise lets always run it.
      * @return bool
      * @throws \Exception
      */
-    public function edit($id, $values, $runValidation = true)
+    public function edit($values, $runValidation = true)
     {
-        $this->load(['id=?', $id]);
         if ($runValidation) {
             $validated = $this->validate($values);
             if (!is_array($validated)) {
                 $this->_edit($values);
+                return true;
             } else {
                 $this->errors = $validated;
                 return false;
