@@ -40,11 +40,12 @@ class Model extends Mapper
     }
 
     /**
-     * @return void
+     * @return array
      */
     public function all()
     {
         $this->load();
+        return $this->query;
     }
 
     /**
