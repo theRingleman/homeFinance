@@ -99,6 +99,9 @@ class Model extends Mapper
                 $this->errors = $validated;
                 return false;
             }
+        } else {
+            $this->copyfrom($values);
+            $this->save();
         }
     }
 
@@ -106,7 +109,6 @@ class Model extends Mapper
      * @param $values
      * @return array|bool|null
      * @throws \Exception
-     * @TODO I am thinking that we may want to throw an error if this fails.
      */
     public function validate($values)
     {
