@@ -59,26 +59,26 @@ class Model extends Mapper
         if ($runValidation) {
             $validated = $this->validate($values);
             if (!is_array($validated)) {
-                $this->_edit($values);
-                return true;
+                return $this->_edit($values);
             } else {
                 $this->errors = $validated;
                 return false;
             }
         } else {
-            $this->_edit($values);
-            return true;
+            return $this->_edit($values);
         }
     }
 
     /**
      * Internal edit so I dont have to repeat myself.
      * @param $values
+     * @return bool
      */
     private function _edit($values)
     {
         $this->copyFrom($values);
         $this->update();
+        return true;
     }
 
     /**
