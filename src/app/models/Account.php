@@ -13,14 +13,12 @@ class Account extends Model
     ];
 
     public $validationRules = [
-        'created' => 'date',
         'accountnumber' => 'required|integer',
         'type' => 'required|alpha',
         'amount' => 'required|numeric'
     ];
 
     public $filterRules = [
-        'created' => 'trim|sanitize_numbers',
         'acountnumber' => 'trim|sanitize_numbers',
         'type' => 'trim|sanitize_string',
         'amount' => 'trim|sanitize_floats'
