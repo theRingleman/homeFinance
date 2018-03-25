@@ -29,10 +29,16 @@ class Account extends Model
     public function __construct($db)
     {
         parent::__construct($db, self::tableName());
+        $this->beforeinsert(array(__CLASS__,'_beforeinsert'));
     }
 
     public static function tableName()
     {
         return 'Accounts';
+    }
+
+    static function _beforeinsert($self, $pkeys)
+    {
+        $self->created = time();
     }
 }
