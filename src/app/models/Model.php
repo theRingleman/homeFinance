@@ -35,7 +35,7 @@ class Model extends Mapper
         if ($this->dry()) {
             throw new \Exception("Not found.", 404);
         } else {
-            return $this->query;
+            return $this;
         }
     }
 

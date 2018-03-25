@@ -7,15 +7,29 @@ use models\Account;
 class AccountsController extends Controller
 {
 
+    /**
+     *
+     */
     public function index()
     {
         $accounts = (new Account)->all();
-        $endpoint = array_map(function ($account) {
+        $this->renderJson(array_map(function ($account) {
             return $account->toEndPoint();
-        }, $accounts);
-        $this->renderJson($endpoint);
+        }, $accounts));
     }
 
+    /**
+     * @throws \Exception
+     */
+    public function show()
+    {
+        $account = (new Account)->findByAttribute('id', $this->params['id']);
+        $this->renderJson($account->toEndPoint());
+    }
+
+    /**
+     * @throws \Exception
+     */
     public function create()
     {
         $account = new Account();
