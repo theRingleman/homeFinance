@@ -24,9 +24,10 @@ class Account extends Model
         'amount' => 'trim|sanitize_floats'
     ];
 
-    public function __construct($db)
+    public function __construct()
     {
-        parent::__construct($db, self::tableName());
+        $f3 = \Base::instance();
+        parent::__construct($f3->get('DB'), self::tableName());
         $this->beforeinsert(array(__CLASS__,'_beforeinsert'));
     }
 
