@@ -13,7 +13,7 @@ class Account extends Model
     ];
 
     public $validationRules = [
-        'accountnumber' => 'required|integer',
+        'accountnumber' => 'integer',
         'type' => 'required|alpha',
         'amount' => 'required|numeric'
     ];
