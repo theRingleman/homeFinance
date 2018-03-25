@@ -27,6 +27,19 @@ class AccountsController extends Controller
         $this->renderJson($account->toEndPoint());
     }
 
+    public function update()
+    {
+        $account = (new Account)->findByAttribute('id', $this->params['id']);
+        if ($account->edit($this->attributes)) {
+            $this->renderJson($account->toEndPoint());
+        } else {
+            $this->renderJson([
+                'message' => "Something went horribly wrong...",
+                'errors' => $account->errors
+            ]);
+        }
+    }
+
     /**
      * @throws \Exception
      */
