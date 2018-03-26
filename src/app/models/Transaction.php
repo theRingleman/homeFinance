@@ -16,7 +16,7 @@ class Transaction extends Model
 
     public $validationRules = [
         'logged' => 'date',
-        'date' => 'date',
+        'date' => 'integer',
         'storeid' => 'integer',
         'accountid' => 'required|integer',
         'type' => 'required|alpha',
@@ -42,6 +42,7 @@ class Transaction extends Model
     {
         $f3 = \Base::instance();
         parent::__construct($f3->get('DB'), self::tableName());
+        $this->beforeinsert(array(__CLASS__,'_beforeinsert'));
     }
 
     /**
@@ -73,5 +74,10 @@ class Transaction extends Model
     public function setAccount()
     {
         $this->_account =  (new Account)->findByAttribute('id', $this->accountid);
+    }
+
+    static function _beforeinsert($self, $pkeys)
+    {
+        $self->logged = time();
     }
 }
