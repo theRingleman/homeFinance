@@ -8,7 +8,8 @@ class AccountsController extends Controller
 {
 
     /**
-     *
+     * Shows all accounts.
+     * @TODO This will need to be locked down to admins, or just to parents.
      */
     public function index()
     {
@@ -27,6 +28,11 @@ class AccountsController extends Controller
         $this->renderJson($account->toEndPoint());
     }
 
+    /**
+     * Upadtes an account.
+     * @TODO I need a way to specify when it is an update.
+     * @throws \Exception
+     */
     public function update()
     {
         $account = (new Account)->findByAttribute('id', $this->params['id']);
@@ -41,6 +47,7 @@ class AccountsController extends Controller
     }
 
     /**
+     * Creates an account.
      * @throws \Exception
      */
     public function create()
@@ -65,6 +72,7 @@ class AccountsController extends Controller
 
     /**
      * @throws \Exception
+     * @TODO We need a way to verify that an item was deleted successfully.
      */
     public function delete()
     {
