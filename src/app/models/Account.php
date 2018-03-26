@@ -24,6 +24,8 @@ class Account extends Model
         'amount' => 'trim|sanitize_floats'
     ];
 
+    protected $_transactions = [];
+
     public function __construct()
     {
         $f3 = \Base::instance();
@@ -39,5 +41,21 @@ class Account extends Model
     static function _beforeinsert($self, $pkeys)
     {
         $self->created = time();
+    }
+
+    /**
+     * @return array
+     */
+    public function getTransactions()
+    {
+        return $this->_transactions;
+    }
+
+    /**
+     * Sets the transactions based on the id.
+     */
+    public function setTransactions()
+    {
+        $this->_transactions = (new Transaction)->find(['accountid = ?', $this->id]);
     }
 }
