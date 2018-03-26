@@ -4,7 +4,6 @@ namespace models;
 
 class Transaction extends Model
 {
-
     public $attributes = [
         'id',
         'logged',
@@ -33,15 +32,35 @@ class Transaction extends Model
         'amount' => 'trim|sanitize_floats'
     ];
 
+    /**
+     * Transaction constructor.
+     * @param $db
+     */
     public function __construct($db)
     {
         $f3 = \Base::instance();
         parent::__construct($f3->get('DB'), self::tableName());
     }
 
+    /**
+     * Transactions database table name.
+     *
+     * @return string
+     */
     public static function tableName()
     {
         return "Transactions";
     }
 
+    /**
+     * Gets the transactions account.
+     *
+     * @return Model
+     * @throws \Exception
+     */
+    public function getAccount()
+    {
+        return (new Account)->findByAttribute('id', $this->accountid);
+
+    }
 }
