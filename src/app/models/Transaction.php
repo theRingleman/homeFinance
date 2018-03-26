@@ -32,6 +32,8 @@ class Transaction extends Model
         'amount' => 'trim|sanitize_floats'
     ];
 
+    protected $_account;
+
     /**
      * Transaction constructor.
      * @param $db
@@ -60,7 +62,16 @@ class Transaction extends Model
      */
     public function getAccount()
     {
-        return (new Account)->findByAttribute('id', $this->accountid);
-
+        return $this->_account;
     }
-}
+
+    /**
+     * Sets the transactions account.
+     *
+     * @throws \Exception
+     */
+    public function setAccount()
+    {
+        $this->_account =  (new Account)->findByAttribute('id', $this->accountid);
+    }
+}c
