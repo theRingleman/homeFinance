@@ -6,7 +6,6 @@ use models\Account;
 
 class AccountsController extends Controller
 {
-
     /**
      * Shows all accounts.
      * @TODO This will need to be locked down to admins, or just to parents.
@@ -82,5 +81,4 @@ class AccountsController extends Controller
 
         $this->renderJson(['message' => 'Account deleted successfully']);
     }
-
 }
