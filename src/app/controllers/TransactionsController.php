@@ -70,8 +70,9 @@ class TransactionsController extends Controller
     }
 
     /**
+     * Deletes a transaction, then double checks to make sure said transaction was deleted.
+     *
      * @throws \Exception
-     * @TODO We need a way to verify that an item was deleted successfully.
      */
     public function delete()
     {
@@ -79,13 +80,14 @@ class TransactionsController extends Controller
             ->findByAttribute('id', $this->params['id'])
             ->delete();
 
-        $deleted = (new Transaction)->findByAttribute('id', $this->params['id']);
-
-        if ($deleted->dry()) {
-            $this->renderJson(['message' => 'Transaction deleted successfully']);
-        } else {
-            $this->renderJson(['message' => 'Something went horribly wrong...']);
+        try {
+            (new Transaction)->findByAttribute('id', $this->params['id']);
+        } catch (\Exception $e) {
+            if ($e->getMessage() == 'Not found.') {
+                $this->renderJson(['message' => 'Transaction deleted successfully']);
+            } else {
+                $this->renderJson(['message' => 'Something went horribly wrong...']);
+            }
         }
-
     }
 }

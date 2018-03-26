@@ -79,6 +79,14 @@ class AccountsController extends Controller
             ->findByAttribute('id', $this->params['id'])
             ->delete();
 
-        $this->renderJson(['message' => 'Account deleted successfully']);
+        try {
+            (new Account)->findByAttribute('id', $this->params['id']);
+        } catch (\Exception $e) {
+            if ($e->getMessage() == 'Not found.') {
+                $this->renderJson(['message' => 'Account deleted successfully']);
+            } else {
+                $this->renderJson(['message' => 'Something went horribly wrong...']);
+            }
+        }
     }
 }
