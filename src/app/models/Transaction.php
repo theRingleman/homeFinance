@@ -38,7 +38,7 @@ class Transaction extends Model
      * Transaction constructor.
      * @param $db
      */
-    public function __construct($db)
+    public function __construct()
     {
         $f3 = \Base::instance();
         parent::__construct($f3->get('DB'), self::tableName());
@@ -74,4 +74,4 @@ class Transaction extends Model
     {
         $this->_account =  (new Account)->findByAttribute('id', $this->accountid);
     }
-}c
+}

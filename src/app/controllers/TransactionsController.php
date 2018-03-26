@@ -79,6 +79,13 @@ class TransactionsController extends Controller
             ->findByAttribute('id', $this->params['id'])
             ->delete();
 
-        $this->renderJson(['message' => 'Transaction deleted successfully']);
+        $deleted = (new Transaction)->findByAttribute('id', $this->params['id']);
+
+        if ($deleted->dry()) {
+            $this->renderJson(['message' => 'Transaction deleted successfully']);
+        } else {
+            $this->renderJson(['message' => 'Something went horribly wrong...']);
+        }
+
     }
 }
