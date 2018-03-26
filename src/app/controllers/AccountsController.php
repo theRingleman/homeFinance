@@ -89,4 +89,10 @@ class AccountsController extends Controller
             }
         }
     }
+
+    public function test()
+    {
+        $account = (new Account)->findByAttribute('id', 12);
+        print_r($account->setTransactions());
+    }
 }
