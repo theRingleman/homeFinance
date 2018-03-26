@@ -35,7 +35,8 @@ class Transaction extends Model
 
     public function __construct($db)
     {
-        parent::__construct($db, self::tableName());
+        $f3 = \Base::instance();
+        parent::__construct($f3->get('DB'), self::tableName());
     }
 
     public static function tableName()
