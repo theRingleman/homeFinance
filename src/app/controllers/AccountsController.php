@@ -90,14 +90,15 @@ class AccountsController extends Controller
         }
     }
 
-    public function test()
+    /**
+     * @throws \Exception
+     */
+    public function indexTransactionsByAccount()
     {
-        $account = (new Account)->findByAttribute('id', 12);
+        $account = (new Account)->findByAttribute('id', $this->params['id']);
         $account->setTransactions();
-        $endpoint = [];
-        foreach ($account->getTransactions() as $transaction) {
-            $endpoint[] = $transaction->toEndPoint();
-        }
-        $this->renderJson($endpoint);
+        $this->renderJson(array_map(function ($transaction) {
+            return $transaction->toEndPoint();
+        }, $account->getTransactions()));
     }
 }
