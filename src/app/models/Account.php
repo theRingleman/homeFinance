@@ -67,7 +67,7 @@ class Account extends Model
     public function setTransactions()
     {
         try {
-            $this->_transactions = (new Transaction)->findByAttribute('accountid', $this->id);
+            $this->_transactions = (new Transaction)->findAllByAttribute('accountid', $this->id);
         } catch (\Exception $e) {
             print_r('Sorry this account has no transactions at this time, try making some money');
         }
