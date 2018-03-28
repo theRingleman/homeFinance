@@ -94,6 +94,10 @@ class AccountsController extends Controller
     {
         $account = (new Account)->findByAttribute('id', 12);
         $account->setTransactions();
-        print_r($account->getTransactions());
+        $endpoint = [];
+        foreach ($account->getTransactions() as $transaction) {
+            $endpoint[] = $transaction->toEndPoint();
+        }
+        $this->renderJson($endpoint);
     }
 }
