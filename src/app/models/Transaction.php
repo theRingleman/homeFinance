@@ -19,7 +19,6 @@ class Transaction extends Model
         'date' => 'integer',
         'storeid' => 'integer',
         'accountid' => 'required|integer',
-        'type' => 'required|alpha',
         'amount' => 'required|numeric'
     ];
 
@@ -28,7 +27,6 @@ class Transaction extends Model
         'date' => 'trim|sanitize_numbers',
         'storeid' => 'trim|sanitize_numbers',
         'accountid' => 'trim|sanitize_numbers',
-        'type' => 'trim|sanitize_string',
         'amount' => 'trim|sanitize_floats'
     ];
 
@@ -36,7 +34,6 @@ class Transaction extends Model
 
     /**
      * Transaction constructor.
-     * @param $db
      */
     public function __construct()
     {
@@ -59,7 +56,7 @@ class Transaction extends Model
     /**
      * Gets the transactions account.
      *
-     * @return Model
+     * @return Account
      * @throws \Exception
      */
     public function getAccount()
@@ -84,12 +81,17 @@ class Transaction extends Model
     static function _beforeinsert($self, $pkeys)
     {
         $self->logged = time();
+        $self->type = $self->amount >= 0 ? "Credit" : "Debit";
     }
 
+    /**
+     * @param $self Transaction
+     * @param $pkeys
+     * @throws \Exception
+     */
     static function _afterinsert($self, $pkeys)
     {
         $self->setAccount();
-        $account = $self->getAccount();
-        $account->updateAmount($self->amount);
+        $self->getAccount()->updateAmount($self->amount);
     }
 }
