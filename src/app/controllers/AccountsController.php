@@ -93,7 +93,7 @@ class AccountsController extends Controller
     /**
      * @throws \Exception
      */
-    public function indexTransactionsByAccount()
+    public function listTransactions()
     {
         $account = (new Account)->findByAttribute('id', $this->params['id']);
         $account->setTransactions();
