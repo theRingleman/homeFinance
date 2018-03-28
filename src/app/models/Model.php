@@ -24,6 +24,8 @@ class Model extends Mapper
     }
 
     /**
+     * Use this method when we are looking for a single model.
+     *
      * @param $attribute
      * @param $value
      * @return Model
@@ -36,6 +38,24 @@ class Model extends Mapper
             throw new \Exception("Not found.", 404);
         } else {
             return $this;
+        }
+    }
+
+    /**
+     * This is for when we need to find multiple items instead of one. Returns an array of models that match the query.
+     *
+     * @param $attribute
+     * @param $value
+     * @return array
+     * @throws \Exception
+     */
+    public function findAllByAttribute($attribute, $value)
+    {
+        $query = $this->find(["{$attribute}=?" => $value]);
+        if (empty($query)) {
+            throw new \Exception('Not found.', 404);
+        } else {
+            return $query;
         }
     }
 
