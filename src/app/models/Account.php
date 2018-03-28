@@ -26,6 +26,9 @@ class Account extends Model
 
     protected $_transactions = [];
 
+    /**
+     * Account constructor.
+     */
     public function __construct()
     {
         $f3 = \Base::instance();
@@ -33,11 +36,18 @@ class Account extends Model
         $this->beforeinsert(array(__CLASS__,'_beforeinsert'));
     }
 
+    /**
+     * @return string
+     */
     public static function tableName()
     {
         return 'Accounts';
     }
 
+    /**
+     * @param $self
+     * @param $pkeys
+     */
     static function _beforeinsert($self, $pkeys)
     {
         $self->created = time();
@@ -61,5 +71,16 @@ class Account extends Model
         } catch (\Exception $e) {
             print_r('Sorry this account has no transactions at this time, try making some money');
         }
+    }
+
+    /**
+     * Updates the amount property.
+     *
+     * @param $amount
+     */
+    public function updateAmount($amount)
+    {
+        $this->amount = $this->amount + ($amount);
+        $this->update();
     }
 }

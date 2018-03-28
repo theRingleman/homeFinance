@@ -43,6 +43,7 @@ class Transaction extends Model
         $f3 = \Base::instance();
         parent::__construct($f3->get('DB'), self::tableName());
         $this->beforeinsert(array(__CLASS__,'_beforeinsert'));
+        $this->afterinsert(array(__CLASS__,'_afterinsert'));
     }
 
     /**
@@ -76,8 +77,19 @@ class Transaction extends Model
         $this->_account =  (new Account)->findByAttribute('id', $this->accountid);
     }
 
+    /**
+     * @param $self
+     * @param $pkeys
+     */
     static function _beforeinsert($self, $pkeys)
     {
         $self->logged = time();
+    }
+
+    static function _afterinsert($self, $pkeys)
+    {
+        $self->setAccount();
+        $account = $self->getAccount();
+        $account->updateAmount($self->amount);
     }
 }
