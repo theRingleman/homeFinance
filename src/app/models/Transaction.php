@@ -42,7 +42,6 @@ class Transaction extends Model
         parent::__construct($f3->get('DB'), self::tableName());
         $this->beforeinsert(array(__CLASS__,'_beforeinsert'));
         $this->afterinsert(array(__CLASS__,'_afterinsert'));
-        $this->_account = $this->setAccount();
     }
 
     /**
@@ -93,6 +92,14 @@ class Transaction extends Model
      */
     static function _afterinsert($self, $pkeys)
     {
+        $self->setAccount();
         $self->getAccount()->updateAmount($self->amount);
+    }
+
+    public function updateAmount($newAmount)
+    {
+        $amount = $newAmount - $this->amount;
+        $this->setAccount();
+        $this->getAccount()->updateAmount($amount);
     }
 }

@@ -35,14 +35,19 @@ class TransactionsController extends Controller
     public function update()
     {
         $transaction = (new Transaction)->findByAttribute('id', $this->params['id']);
-        if ($transaction->edit($this->attributes)) {
-            $this->renderJson($transaction->toEndPoint());
+        $validated = $transaction->validate($this->attributes);
+        // We want to validate the attributes first so we know that the info being passed to the account
+        //is safe, then if it's safe we update the accounts amount, then update the transaction.
+        if ($validated) {
+            $transaction->updateAmount($this->attributes->amount);
         } else {
             $this->renderJson([
                 'message' => "Something went horribly wrong...",
                 'errors' => $transaction->errors
             ]);
         }
+        $transaction->edit($this->attributes, false);
+        $this->renderJson($transaction->toEndPoint());
     }
 
     /**
